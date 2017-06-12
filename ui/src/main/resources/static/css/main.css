@@ -1,0 +1,75 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: Lato, Helvetica Neue, Helvetica, Roboto, Arial, sans-serif;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #0a0a0a;
+    background: #FFFFFF;
+    -webkit-font-smoothing: antialiased;
+}
+a {
+    color: #292F36;
+}
+
+.hidden {
+    display: none;
+}
+
+label {
+    font-weight: 100;
+}
+
+
+.custom-image {
+    z-index: 1;
+}
+.custom-image .glyphicon {
+    z-index: 200;
+}
+.custom-image .glyphicon.select, #gallery.select-mode .custom-image .glyphicon.select, .custom-image .glyphicon.multi-select {
+    display: none;
+    position: relative;
+    top: 8px;
+    left: 8px;
+    font-size: 20px;
+    color: #FFFFFF;
+    -webkit-transition: width 0.3s opacity 0.3s font-size 0.3s;
+    transition: width 0.3s opacity 0.3s font-size 0.3s;
+    text-decoration: none;
+}
+#gallery.select-mode .custom-image:not(.selected) .glyphicon.multi-select {
+    display: inline;
+}
+.custom-image:hover .glyphicon.select {
+    display: inline;
+    opacity: 0.6;
+    text-decoration: none;
+}
+.custom-image .glyphicon.select:hover {
+    display: inline;
+    opacity: 1.0;
+    text-decoration: none;
+}
+#gallery.select-mode .custom-image .glyphicon.select,
+#gallery.select-mode .custom-image .glyphicon.multi-select
+#gallery.select-mode .custom-image.selected .glyphicon.multi-select {
+    display: none;
+}
+
+#gallery.select-mode .custom-image.selected .glyphicon.select {
+    display: inline;
+    opacity: 1.0;
+    color: #00FF00;
+}
+#gallery.select-mode .custom-image.selected .glyphicon.select:hover {
+    opacity: 1.0;
+}
+#gallery .custom-image {
+    -webkit-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+}
+#gallery .custom-image.selected {
+    -webkit-transition: scale(0.95);
+    transform: scale(0.95);
+}

@@ -1,0 +1,52 @@
+spring:
+  application:
+    name: 'media'
+  ########## MONGO DB ############
+  data:
+    mongodb:
+      uri: 'mongodb://localhost:27017'
+      host: 'localhost'
+      port: 27017
+      database: 'media'
+      repositories:
+        enabled: true
+
+
+########## APPLICATION #########
+server:
+  port: 8081
+management:
+  contextPath: '/'
+
+endpoints:
+  # disable all endpoints
+  enabled: false
+  health:
+    enabled: true
+    sensitive: true
+    path: '/monitor/health'
+
+
+########## LOGGING #############
+logging:
+  level:
+    de.paulstueber.media: 'DEBUG'
+    org.springframework: 'ERROR'
+    org.springframework.data.mongodb.core.MongoTemplate: 'ERROR'
+
+########## UPLOADS ##############
+upload:
+  folder:
+    files: '/tmp/uploads/'
+
+########## SERVICE DISCOVERY ##############
+eureka:
+  client:
+    serviceUrl:
+      default: http://127.0.0.1:8761/eureka/
+      defaultZone: http://127.0.0.1:8761/eureka/
+  registration:
+    enabled: true
+  preferSameZone: true
+  healthcheck:
+    enabled: true

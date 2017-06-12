@@ -1,0 +1,46 @@
+version: '2'
+services:
+    mongo:
+        image: mongo:latest
+        ports:
+            - "27017:27017"
+
+    registry:
+        build: ./registry
+        ports:
+            - "8761:8761"
+
+    media:
+        build: ./media
+        environment:
+            - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017
+            - SPRING_DATA_MONGODB_HOST=mongo
+            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry:8761/eureka/
+        ports:
+            - "8081:8081"
+        volumes:
+            - /tmp/media:/tmp/media
+        depends_on:
+              - "mongo"
+              - "registry"
+        links:
+            - mongo
+            - registry:registry
+
+    ui:
+        build: ./ui
+        environment:
+            - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017
+            - SPRING_DATA_MONGODB_HOST=mongo
+            - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://registry:8761/eureka/
+            - CONFIG_INIT_USER_NAME=admin@localhost
+            - CONFIG_INIT_USER_PASSWORD=admin
+        ports:
+            - "8080:8080"
+        depends_on:
+              - "mongo"
+              - "registry"
+        links:
+            - media
+            - mongo
+            - registry:registry

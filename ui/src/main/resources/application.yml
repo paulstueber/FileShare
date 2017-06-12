@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: 'ui'
+  ########## MONGO DB ############
+  data:
+    mongodb:
+      uri: 'mongodb://localhost:27017'
+      host: 'localhost'
+      port: 27017
+      database: 'ui'
+      repositories:
+        enabled: true
+  thymeleaf:
+    mode: LEGACYHTML5
+    cache: true
+    prefix: classpath:/templates
+    suffix: .html
+
+########## APPLICATION #########
+server:
+  port: 8080
+  session:
+    timeout: 86400
+management:
+  contextPath: '/'
+
+endpoints:
+  # disable all endpoints
+  enabled: false
+  health:
+    enabled: true
+    sensitive: true
+    path: '/monitor/health'
+
+########## LOGGING #############
+logging:
+  level:
+    de.paulstueber.ui: 'DEBUG'
+    org.springframework: 'ERROR'
+
+########## CONFIG #######
+config:
+  init:
+    user:
+      name: 'admin@localhost'
+      password: 'admin'
+
+########## PROXY SETTINGS ########
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://127.0.0.1:8761/eureka/
+  healthcheck:
+    enabled: true
+
+zuul:
+  prefix: /api
+  retryable: true
+  routes:
+    media:
+      path: /media/**
+      serviceId: MEDIA
+# allow proxied routes to run up to 60 seconds
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
