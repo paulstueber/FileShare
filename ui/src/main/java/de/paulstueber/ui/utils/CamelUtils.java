@@ -2,12 +2,8 @@ package de.paulstueber.ui.utils;
 
 import lombok.NonNull;
 import org.apache.camel.CamelContext;
-import org.apache.camel.ProducerTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 /**
  * Utility for Camel related generic functionality

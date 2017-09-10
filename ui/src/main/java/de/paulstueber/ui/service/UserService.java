@@ -5,8 +5,6 @@ import de.paulstueber.ui.model.Role;
 import de.paulstueber.ui.model.User;
 import de.paulstueber.ui.model.dto.UserCreateForm;
 import de.paulstueber.ui.repository.UserRepository;
-import de.paulstueber.ui.routes.Routes;
-import de.paulstueber.ui.utils.CamelUtils;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
