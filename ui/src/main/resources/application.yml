@@ -8,6 +8,8 @@ spring:
       host: 'localhost'
       port: 27017
       database: 'ui'
+      collection:
+        idempotent: 'idempotent'
       repositories:
         enabled: true
   thymeleaf:
@@ -44,6 +46,19 @@ config:
     user:
       name: 'admin@localhost'
       password: 'admin'
+  kafka:
+    host: 'localhost'
+    port: 9092
+    topic:
+      out: 'update'
+      error: 'error'
+    # One consumer can listen to more than one topics.[ TestLog,AccessLog ]
+    consumer:
+      maxPollRecords: 5000
+      # No of consumers that connect to Kafka server
+      consumersCount: 1
+      # Get records from the begining
+      seekTo: beginning
 
 ########## PROXY SETTINGS ########
 eureka:

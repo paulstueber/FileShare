@@ -5,6 +5,8 @@ import de.paulstueber.ui.model.Role;
 import de.paulstueber.ui.model.User;
 import de.paulstueber.ui.model.dto.UserCreateForm;
 import de.paulstueber.ui.repository.UserRepository;
+import de.paulstueber.ui.routes.Routes;
+import de.paulstueber.ui.utils.CamelUtils;
 import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -25,6 +27,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MessagingService camelUtils;
 
     /**
      * Get user by Id
@@ -63,7 +68,9 @@ public class UserService {
      * @return user instance
      */
     public final User save(final User user) {
-        return userRepository.save(user);
+        User myUser = userRepository.save(user);
+        camelUtils.save(myUser);
+        return myUser;
     }
 
     /**
@@ -88,7 +95,8 @@ public class UserService {
                 .passwordHash(new BCryptPasswordEncoder().encode(userCreateForm.getPassword()))
                 .roles(Arrays.asList(userCreateForm.getRole()))
                 .build();
-        return userRepository.save(user);
+
+        return this.save(user);
     }
 
     /**
@@ -114,7 +122,8 @@ public class UserService {
                 .passwordHash(new BCryptPasswordEncoder().encode(password))
                 .roles(Arrays.asList(role))
                 .build();
-        return userRepository.save(user);
+
+        return this.save(user);
     }
 
     /**
@@ -124,6 +133,7 @@ public class UserService {
     @Secured("ROLE_SUPER_ADMIN")
     public void deleteUser(final User user) {
         this.userRepository.delete(user);
+        camelUtils.delete(user);
     }
     /**
      * delete an existing use from DB. This is only allowed to ADMINs
@@ -131,6 +141,9 @@ public class UserService {
      */
     @Secured("ROLE_SUPER_ADMIN")
     public void deleteUserById(@NonNull final String userId) {
-        this.userRepository.delete(userId);
+        if (this.getById(userId).isPresent()) {
+            camelUtils.delete(this.getById(userId).get());
+            this.userRepository.delete(userId);
+        }
     }
 }

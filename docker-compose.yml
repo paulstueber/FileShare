@@ -5,6 +5,28 @@ services:
         ports:
             - "27017:27017"
 
+    zookeeper:
+        image: dockerkafka/zookeeper
+        ports:
+            - "2181:2181"
+
+    kafka:
+        image: dockerkafka/kafka
+        ports:
+            - "9092:9092"
+        links:
+            - zookeeper
+
+    kafka-manager:
+        image: dockerkafka/kafka-manager
+        environment:
+            - ZK_HOSTS=zookeeper:2181
+        ports:
+            - "9000:9000"
+        links:
+            - zookeeper
+            - kafka
+
     registry:
         build: ./registry
         ports:
